@@ -11,7 +11,7 @@ preprocess:
   interval: 30  # minutes,
 upload:
   timings:
-    0: "20:00"  # "HH:MM" eg. "15:45", WITHIN QUOTES
-    1: "08:00"
+    0: "2000"  # "HHMM" eg. "1545", WITHIN QUOTES
+    1: "0800"
   repetition: "1111111"  # eg. "1000000" for every monday, WITHIN QUOTES
 ...

@@ -78,7 +78,7 @@ class Scheduler:
             type: int
             duration in minutes for the job to run
         job_time
-            type: HH:MM
+            type: HHMM
             time to begin the job
         week_days
             type: str
