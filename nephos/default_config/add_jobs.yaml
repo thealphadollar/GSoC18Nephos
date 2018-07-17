@@ -9,7 +9,7 @@
 0:
   name: [NAME OF THE PROGRAMME]
   channel_name: [NAME OF THE CHANNEL TO RECORD]
-  start_time: [TIME TO BEGIN RECORDING]  # "HH:MM" eg. "15:45", WITHIN QUOTES
+  start_time: [TIME TO BEGIN RECORDING]  # "HHMM" eg. "1545", WITHIN QUOTES
   duration: [DURATION OF THE RECORDING]  # in minutes
   repetition: [0000000]  # eg. "1000000" for every monday, WITHIN QUOTES
 ...
