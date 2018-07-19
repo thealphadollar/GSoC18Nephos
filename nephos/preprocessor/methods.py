@@ -78,6 +78,8 @@ class ApplyProcessMethods:
                     db_cur.execute(SET_PROCESSED_COMMAND, (self.addr, ))
             except DBException as err:
                 LOG.debug(err)
+	    except FileNotFoundError as err:
+		LOG.debug(err)
 
         except ProcessFailedException as _:
             pass
