@@ -1,6 +1,5 @@
 """
 File containing initialising functions for Nephos
-
 Used to store attributes which will be used throughout the program.
 """
 import os
@@ -45,12 +44,10 @@ def load_mail_list():
     """
     Checks and removes incorrect mail addresses from toaddr parameter
     of logger's SMTP handler
-
     Returns
     -------
     type: list
     updated list of emails
-
     """
 
     if os.path.exists(CRITICAL_MAIL_ADDRS_PATH):
@@ -82,18 +79,15 @@ def load_mail_list():
 def validate_entries(data):
     """
     Validates the data entry for the channels, jobs and sharelists
-
     Parameters
     ----------
     data
         type: dict
         contains multiple channels' data
-
     Returns
     -------
     type: dict
     validated and rectified data
-
     """
 
     for key in data.copy().keys():
@@ -112,7 +106,7 @@ def validate_entries(data):
                 else:
                     if not REGEX_CHECK[key2].match('{}'.format(data[key][key2])):
                         data.pop(key, None)
-                        removed = Trcecue
+                        removed = True
             if removed:
                 break
 
@@ -123,7 +117,6 @@ def first_time():
     """
     If the program is being run first time, create the directory Nephos
     and it's subdirectories in user's home directory
-
     -Nephos:
         - config: contains user editable configuration files
         - logs: store log information in txt
@@ -131,12 +124,10 @@ def first_time():
         - recordings: stores the recorded streams
         - processed: stores processed mp4 files to be uploaded
         - docs: stores the detailed documentation for Nephos
-
     Returns
     -------
     bool: True, when Nephos launched first time
           False, otherwise
-
     """
 
     if os.path.exists(__nephos_dir__):
