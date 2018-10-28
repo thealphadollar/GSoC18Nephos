@@ -112,7 +112,7 @@ def validate_entries(data):
                 else:
                     if not REGEX_CHECK[key2].match('{}'.format(data[key][key2])):
                         data.pop(key, None)
-                        removed = True
+                        removed = Trcecue
             if removed:
                 break
 
