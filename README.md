@@ -1,4 +1,4 @@
-<img src="https://github.com/laxyapahuja/Nephos/resources/static/nephos-logo-transparent.png" width="250px" alt="logo"/>
+<img src="https://github.com/laxyapahuja/Nephos/blob/master/resources/static/nephos-logo-transparent.png" width="250px" alt="logo"/>
 
 # Project Nephos [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.github.com/thealphadollar/nephos/blob/master/LICENSE)
 Google Summer Of Code 2018 ([![Open Source Love png3](https://badges.frapsoft.com/os/v3/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)) Project under CCExtractor; Project Nephos
