@@ -1,7 +1,7 @@
 # Project Nephos [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.github.com/thealphadollar/nephos/blob/master/LICENSE)
 Google Summer Of Code 2018 ([![Open Source Love png3](https://badges.frapsoft.com/os/v3/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)) Project under CCExtractor; Project Nephos
 
-<img src = "https://ia601506.us.archive.org/30/items/makarov18042003_gmail_Logo_20181125_1612/Logo.png">
+<img src = "https://ia601501.us.archive.org/11/items/makarov18042003_gmail_Logo_20181127/Logo.png">
 
 # [![CodeFactor](https://www.codefactor.io/repository/github/thealphadollar/Nephos/badge)](https://www.codefactor.io/repository/github/thealphadollar/gsoc18nephos) [![Requirements Status](https://requires.io/github/thealphadollar/Nephos/requirements.svg?branch=master)](https://requires.io/github/thealphadollar/Nephos/requirements/?branch=master) [![Build Status](https://travis-ci.org/thealphadollar/Nephos.svg?branch=master)](https://travis-ci.org/thealphadollar/Nephos) [![codecov](https://codecov.io/gh/thealphadollar/nephos/branch/master/graph/badge.svg)](https://codecov.io/gh/thealphadollar/nephos)
 
