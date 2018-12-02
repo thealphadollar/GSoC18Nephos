@@ -1,7 +1,9 @@
 from tests.base import BaseTestCase
-import json
 
 class TestControllers(BaseTestCase):
+  """
+  Test Cases for the Main Views
+  """
     def test_root(self):
         """
         Test the root
