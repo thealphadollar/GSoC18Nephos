@@ -23,7 +23,7 @@ class BaseTestCase(TestCase):
             APP.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
                 os.path.join(APP.config['BASEDIR'], '../../databases/jobs.db')
             self.APP = APP.test_client()
-            DB.create_all()
+            DB.create_all() # Come on now...
 
         return APP
 
