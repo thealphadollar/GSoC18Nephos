@@ -14,11 +14,11 @@ class BaseTestCase(TestCase):
             APP.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
                 os.path.join(APP.config['BASEDIR'], '../../databases/jobs.db')
             self.APP = APP.test_client()
-            db.create_all()
+            DB.create_all()
 
         return APP
+        
         # executed after each test
-
         def tearDown(self):
             db.drop_all()
 
