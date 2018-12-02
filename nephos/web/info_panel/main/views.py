@@ -6,12 +6,12 @@ Controller Responsible for Handling the main page
 """
 
 from flask import render_template, Response
-from infoPanel.main import main_bp
-from infoPanel import DB
+from info_panel.main import MAIN_BP
+from info_Panel import DB
 import json
 
 
-@main_bp.route('/', methods=['GET'])
+@MAIN_BP.route('/', methods=['GET'])
 def homepage():
     """
     <url>/
@@ -22,7 +22,7 @@ def homepage():
     return "Hello World!"
 
 
-@main_bp.route('/api/channels', methods=['GET'])
+@MAIN_BP.route('/api/channels', methods=['GET'])
 def channels():
     """
     <url>/api/channels
@@ -35,7 +35,7 @@ def channels():
     return Response(json.dumps([dict(r) for r in data]), mimetype='application/json')
 
 
-@main_bp.route('/channels', methods=['GET'])
+@MAIN_BP.route('/channels', methods=['GET'])
 def show_channels():
     """
     <url>/api/channels
