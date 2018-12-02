@@ -1,27 +1,27 @@
 from tests.base import BaseTestCase
 
 class TestControllers(BaseTestCase):
-	def test_root(self):
-		"""
-		Test the root
-		"""
-		response = self.app.test_client().get('/')
-		self.assertEqual(response.status_code, 200)
-		self.assertEqual(response.data, b'Hello World!')
+  def test_root(self):
+    """
+    Test the root
+    """
+    response = self.app.test_client().get('/')
+    self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.data, b'Hello World!')
 
-	def test_channels_view(self):
-		"""
-		Test if Channel works properly
-		"""
-		response = self.app.test_client().get('/channels')
-		self.assertEqual(response.status_code, 200)
-		self.assert_template_used('channels.html')
+  def test_channels_view(self):
+    """
+    Test if Channel works properly
+    """
+    response = self.app.test_client().get('/channels')
+    self.assertEqual(response.status_code, 200)
+    self.assert_template_used('channels.html')
 
-	def test_channels_api(self):
-		"""
-		Test if Channel works properly
-		"""
-		d = [
+  def test_channels_api(self):
+    """
+    Test if Channel works properly
+    """
+    d = [
   {
     "channel_id": 1,
     "name": "tve1",
@@ -203,6 +203,6 @@ class TestControllers(BaseTestCase):
     "status": "up"
   }
 ]
-		response = self.app.test_client().get('/channels')
-		self.assertEqual(response.status_code, 200)
-		self.assertEqual(response.data, d)
+    response = self.app.test_client().get('/channels')
+    self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.data, d)
