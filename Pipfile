@@ -23,6 +23,7 @@ pytz = "*"
 tzlocal = "*"
 google-api-python-client = "*"
 "oauth2client" = "*"
+"flask" = "*"
 
 [requires]
 python_version = "3.4"
