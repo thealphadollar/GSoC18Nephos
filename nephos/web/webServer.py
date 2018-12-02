@@ -1,4 +1,4 @@
-from infoPanel import create_app
+from info_panel import create_app
 
 APP = create_app()
 

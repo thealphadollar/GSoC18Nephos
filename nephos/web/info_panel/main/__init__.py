@@ -1,4 +1,4 @@
 from flask import Blueprint
-main_bp = Blueprint('main', __name__)
+MAIN_BP = Blueprint('main', __name__)
 
-from infoPanel.main import views
+from info_panel.main import views

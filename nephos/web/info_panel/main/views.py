@@ -7,7 +7,7 @@ Controller Responsible for Handling the main page
 
 from flask import render_template, Response
 from info_panel.main import MAIN_BP
-from info_Panel import DB
+from info_panel import DB
 import json
 
 
