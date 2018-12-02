@@ -4,8 +4,9 @@ from flask_testing import TestCase
 import flask
 from webServer import app
 
+
 class BaseTestCase(TestCase):
-    def create_app(self): 
+    def create_app(self):
         # executed prior to each test
         def setUp(self):
             app.config['TESTING'] = True
@@ -16,11 +17,12 @@ class BaseTestCase(TestCase):
             self.app = app.test_client()
             db.create_all()
 
-        return app 
+        return app
         # executed after each test
+
         def tearDown(self):
             db.drop_all()
 
+
 if __name__ == "__main__":
     unittest.main()
-

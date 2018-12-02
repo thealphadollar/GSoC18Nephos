@@ -15,6 +15,7 @@ app.config['SECRET_KEY'] = 'nesho'
 
 db = SQLAlchemy(app)
 
+
 def create_app():
     db.init_app(app)
 
