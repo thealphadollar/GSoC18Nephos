@@ -1,7 +1,6 @@
 import os
 import unittest
 from flask_testing import TestCase
-import flask
 from webServer import APP
 
 

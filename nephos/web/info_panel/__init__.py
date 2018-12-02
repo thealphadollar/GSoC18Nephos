@@ -1,6 +1,6 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import os
 
 APP = Flask(__name__, static_folder='static')
 DB = SQLAlchemy()
