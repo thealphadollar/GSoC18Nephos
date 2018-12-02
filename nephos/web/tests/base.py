@@ -2,22 +2,22 @@ import os
 import unittest
 from flask_testing import TestCase
 import flask
-from webServer import app
+from webServer import APP
 
 
 class BaseTestCase(TestCase):
     def create_app(self):
         # executed prior to each test
         def setUp(self):
-            app.config['TESTING'] = True
-            app.config['WTF_CSRF_ENABLED'] = False
-            app.config['DEBUG'] = False
-            app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-                os.path.join(app.config['BASEDIR'], '../../databases/jobs.db')
-            self.app = app.test_client()
+            APP.config['TESTING'] = True
+            APP.config['WTF_CSRF_ENABLED'] = False
+            APP.config['DEBUG'] = False
+            APP.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
+                os.path.join(APP.config['BASEDIR'], '../../databases/jobs.db')
+            self.APP = APP.test_client()
             db.create_all()
 
-        return app
+        return APP
         # executed after each test
 
         def tearDown(self):

@@ -2,24 +2,27 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
 
-app = Flask(__name__, static_folder='static')
-db = SQLAlchemy()
+APP = Flask(__name__, static_folder='static')
+DB = SQLAlchemy()
 
-basedir = os.path.dirname(os.path.abspath(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-    os.path.join(basedir, '../../databases/storage.db')
-app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+BASEDIR = os.path.dirname(os.path.abspath(__file__))
+APP.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
+    os.path.join(BASEDIR, '../../databases/storage.db')
+APP.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-app.config['SECRET_KEY'] = 'nesho'
+APP.config['SECRET_KEY'] = 'nesho'
 
-db = SQLAlchemy(app)
+DB = SQLAlchemy(APP)
 
 
 def create_app():
-    db.init_app(app)
+    """
+    Creates the Flask App and initializes it's views
+    """
+    DB.init_app(APP)
 
     from infoPanel.main import main_bp
-    app.register_blueprint(main_bp)
+    APP.register_blueprint(main_bp)
 
-    return app
+    return APP

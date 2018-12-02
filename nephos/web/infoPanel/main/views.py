@@ -5,9 +5,9 @@ Controller Responsible for Handling the main page
 
 """
 
-from flask import Flask, render_template, Response
+from flask import render_template, Response
 from infoPanel.main import main_bp
-from infoPanel import db
+from infoPanel import DB
 import json
 
 
@@ -30,7 +30,7 @@ def channels():
     View that Returns the channel
 
     """
-    data = db.session.execute('SELECT * FROM channels;')
+    data = DB.session.execute('SELECT * FROM channels;')
     # http://codeandlife.com/2014/12/07/sqlalchemy-results-to-json-the-easy-way/
     return Response(json.dumps([dict(r) for r in data]), mimetype='application/json')
 
@@ -43,7 +43,7 @@ def show_channels():
     View that Returns the channel and displays them in a nice table
 
     """
-    data = db.session.execute('SELECT * FROM channels;')
+    data = DB.session.execute('SELECT * FROM channels;')
     # http://codeandlife.com/2014/12/07/sqlalchemy-results-to-json-the-easy-way/
     channels = [dict(r) for r in data]
     return render_template('channels.html', channels=channels)
