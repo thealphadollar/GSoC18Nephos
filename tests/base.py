@@ -1,3 +1,6 @@
+"""
+Used to Create a Base for testing the flask app
+"""
 import os
 import unittest
 from flask_testing import TestCase

@@ -1,3 +1,6 @@
+"""
+Test Controller responsible for testing all the views in the /main folder
+"""
 from tests.base import BaseTestCase
 
 class TestControllers(BaseTestCase):
