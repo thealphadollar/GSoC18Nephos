@@ -1,3 +1,6 @@
+"""
+Initialize Flask, Database and import the views
+"""
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
