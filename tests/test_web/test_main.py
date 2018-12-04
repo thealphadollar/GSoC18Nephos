@@ -1,9 +1,10 @@
 """
 Test Controller responsible for testing all the views in the /main folder
 """
+from unittest import TestCase, mock
 from tests.base import BaseTestCase
 
-class TestControllers(BaseTestCase):
+class test_Controllers(BaseTestCase):
     """
     Test Cases for the Main Views
     """
