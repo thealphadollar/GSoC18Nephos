@@ -2,7 +2,7 @@
 Test Controller responsible for testing all the views in the /main folder
 """
 from unittest import TestCase, mock
-from tests.base import BaseTestCase
+from tests.test_web.base import BaseTestCase
 
 class test_Controllers(BaseTestCase):
     """
