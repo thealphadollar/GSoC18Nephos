@@ -25,7 +25,7 @@ def create_app():
     """
     DB.init_app(APP)
 
-    from info_panel.main import MAIN_BP
+    from .main import MAIN_BP
     APP.register_blueprint(MAIN_BP)
 
     return APP
