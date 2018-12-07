@@ -11,6 +11,7 @@ codecov = "*"
 click = "*"
 scandir = "*"
 "pathlib2" = "*"
+"Flask-Testing" = "*"
 
 [packages]
 pydash = "*"
