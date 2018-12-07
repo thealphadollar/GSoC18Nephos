@@ -6,8 +6,8 @@ Controller Responsible for Handling the main page
 """
 import json
 from flask import render_template, Response
-from info_panel.main import MAIN_BP
-from info_panel import DB
+from ..main import MAIN_BP
+from .. import DB
 
 
 
