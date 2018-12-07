@@ -52,7 +52,7 @@ later:
 Please go to [Nephos Config](https://github.com/thealphadollar/NephosConfig) repository to modify the channels, jobs and share lists that Nephos works on.
 
 ## Running the Web Interface
-Nephos has a Web Interface that you can see how everything works. To get started just run `python3 webServer.py` and you can see the database entries in an instant!
+Nephos has a Web Interface that you can see how everything works. To get started set the enviorment `FLASK_APP` to the path where webServer.py is and run it with `flask run` and you can see the database entries in an instant!
 
 ## Developer Documentation
 Developers can view the documentation that is present for users since it is detailed and one needs to read it in order to understand how Nephos functions. Along with that, docstrings have been placed in HTML format in
