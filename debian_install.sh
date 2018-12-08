@@ -17,7 +17,7 @@ add-apt-repository ppa:deadsnakes/ppa -y
 apt-get update -y
 apt-get install python3.4
 
-if [[$0 == "ubuntu"]]
+if [[ $0 == "ubuntu" ]]
 then
     apt-get install python3-pip
 else
@@ -28,7 +28,7 @@ fi
 echo "python-pip installed"
 
 # install pipenv
-if [[$0 == "ubuntu"]]
+if [[ $0 == "ubuntu" ]]
 then 
     python3.4 -m pip install pipenv
 else
@@ -42,13 +42,13 @@ echo "pipenv installed"
 
 apt-get install -y screen
 
-if [[$0 == "debian"]]
+if [[ $0 == "debian" ]]
 then
     apt-get install -y mailx
 fi
 echo "mail tools installed"
 
-if [[$0 == "debian"]]
+if [[ $0 == "debian" ]]
 then
    apt-get installl -y gcc gcc-c++ libx254-devel
 fi
@@ -69,7 +69,7 @@ make && make install
 echo "multicat installed"
 
 # install tesseract
-if [[$0 == "debian"]]
+if [[ $0 == "debian" ]]
     then apt-get install -y leptonica-devel tesseract-devel
 else
     then apt-get install -y libtesseract-dev tesseract-ocr
