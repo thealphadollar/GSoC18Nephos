@@ -61,7 +61,7 @@ Developers can view the documentation that is present for users since it is deta
 You can also go [here](https://thealphadollar.github.io/NephosDevDocs/) to access it online.
 
 ## Tests
-In order for all code to be successful and well maintanable we write run to test out the code. To do so run `pipenv run py.test`
+In order for all code to be successful and well maintanable we run tests to test out the code. To do so run `pipenv run py.test`
 
 ## More Info
 For more information regarding using Nephos and how it works, [visit the wiki](https://www.github.com/thealphadollar/Nephos/wiki)
