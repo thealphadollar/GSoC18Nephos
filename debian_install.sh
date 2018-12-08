@@ -30,7 +30,7 @@ echo "python-pip installed"
 # install pipenv
 if [[$0 == "ubuntu"]]
 then 
-     pip3 install pipenv
+    python3.4 -m pip install pipenv
 else
     # Debian
     pip3 install pipenv
