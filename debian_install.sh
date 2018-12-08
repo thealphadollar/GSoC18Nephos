@@ -7,7 +7,7 @@ if [ $(id -u) -ne 0 ]
     exit 1
 fi
 
-if [-z "$0"]
+if [ -z "$0" ]
    then echo "Error: Please Specify either ubuntu or debian"
    exit 1
 fi
