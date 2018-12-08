@@ -28,10 +28,29 @@ class test_Controllers(BaseTestCase):
         """
         Test if Channel works properly
         """
-        response = self.app.test_client().get('/channels')
+        response = self.app.test_client().get('/api/channels')
         self.assertEqual(response.status_code, 200)
         self.assertIn("bloomberg_europe", str(response.data))
         self.assertIn("EU", str(response.data))
         self.assertIn("239.255.20.19:1234", str(response.data))
         self.assertIn("spa", str(response.data))
         self.assertIn("up", str(response.data))
+
+    def test_jobs(self):
+        """
+        Test if Jobs works properly
+        """
+        response = self.app.test_client().get('/jobs')
+        self.assertEqual(response.status_code, 200)
+        self.assert_template_used('jobs.html')
+
+    def test_channels_api(self):
+        """
+        Test if Jobs works properly
+        """
+        response = self.app.test_client().get('/api/jobs')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("al_rojo_vivo_previo", str(response.data))
+        self.assertIn("1532080800.0", str(response.data))
+        self.assertIn(".triggers.interval", str(response.data))
+

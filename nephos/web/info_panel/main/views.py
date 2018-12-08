@@ -7,7 +7,7 @@ Controller Responsible for Handling the main page
 import json
 from flask import render_template, Response
 from ..main import MAIN_BP
-from .. import DB
+from .. import DB, APP
 
 
 
@@ -38,7 +38,7 @@ def channels():
 @MAIN_BP.route('/channels', methods=['GET'])
 def show_channels():
     """
-    <url>/api/channels
+    <url>/channels
 
     View that Returns the channel and displays them in a nice table
 
@@ -47,3 +47,45 @@ def show_channels():
     # http://codeandlife.com/2014/12/07/sqlalchemy-results-to-json-the-easy-way/
     channels = [dict(r) for r in data]
     return render_template('channels.html', channels=channels)
+
+
+@MAIN_BP.route('/api/jobs', methods=['GET'])
+def jobs():
+    """
+    <url>/api/jobs
+    
+    View that Returns the jobs
+
+    """
+    jobs_engine = DB.get_engine(APP, 'jobs')
+    data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
+
+    data = {}
+
+    number = 0
+    for r in data_raw:
+        d = {'channel_name': r[0], 'next_run_time': str(r[1]), 'job_state': str(r[2])}
+        data[number] = dict(d)
+        number+=1
+
+    return Response(json.dumps(data), mimetype='application/json') # http://codeandlife.com/2014/12/07/sqlalchemy-results-to-json-the-easy-way/
+
+@MAIN_BP.route('/jobs', methods=['GET'])
+def show_jobs():
+    
+    #<url>/jobs
+    
+    #View that Returns the jobs and displays them in a nice table
+
+    jobs_engine = DB.get_engine(APP, 'jobs')
+    data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
+    
+    data = {}
+
+    number = 0
+    for r in data_raw:
+        d = {'channel_name': r[0], 'next_run_time': str(r[1]), 'job_state': str(r[2])}
+        data[number] = dict(d)
+        number+=1
+
+    return render_template('jobs.html', jobs=data)

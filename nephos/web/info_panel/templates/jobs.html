@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="table">
+	<table class="table" id="tabledata">
+		<thead class="thead-dark">
+			<tr>
+			  <th scope="col">ID</th>
+			  <th scope="col">Channel Name</th>
+			  <th scope="col">Next Run Time</th>
+			  <th scope="col">Job State</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for value in jobs %}
+			<tr>
+			  <td>{{ value }}</td>
+			  <td>{{ jobs[value]["channel_name"] }}</td>
+			  <td>{{ jobs[value]["next_run_time"] }}</td>
+			  <td>{{ jobs[value]["job_state"] }}</td>
+	
+			</tr>
+		{% endfor%}
+		</tbody>
+	</table>
+</div>
+{% endblock %}
