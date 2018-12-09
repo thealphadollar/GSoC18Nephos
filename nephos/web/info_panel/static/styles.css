@@ -1,0 +1,9 @@
+.text-center{
+    text-align:center;
+}
+
+.new_channel_button{
+    position: absolute; 
+    top:5px;
+    right: 5%;
+}

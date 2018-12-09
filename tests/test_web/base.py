@@ -22,6 +22,7 @@ class BaseTestCase(TestCase):
             """
             APP.config['TESTING'] = True
             APP.config['WTF_CSRF_ENABLED'] = False
+            APP.config['WTF_CSRF_METHODS'] = []
             APP.config['DEBUG'] = False
             APP.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
                 os.path.join(APP.config['BASEDIR'], 'nephos/databases/jobs.db')

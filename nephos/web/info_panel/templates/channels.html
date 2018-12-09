@@ -1,5 +1,9 @@
 {% extends 'layout.html' %}
 {% block content %}
+<div class="fluid-container">
+	  <h1 class="text-center">Nephos - Channels</h1>
+	  <button type="button" class="btn btn-primary new_channel_button" onclick="location.href='{{ url_for('main.add_channel') }}'"><i class="fas fa-plus"></i> Add New Channel</button>
+</div>
 
 <div class="table">
 	<table class="table" id="tabledata">
@@ -12,6 +16,8 @@
 			  <th scope="col">Language Code</th>
 			  <th scope="col">Timezone</th>
 			  <th scope="col">Status</th>
+			  <th scope="col">Edit</th>
+			  <th scope="col">Delete</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,6 +30,8 @@
 			  <td>{{ value["lang"] }}</td>
 			  <td>{{ value["timezone"] }}</td>
 			  <td>{{ value["status"] }}</td>
+			  <td> <a href="{{ url_for('main.edit_channel', id=value['channel_id']) }}" class="fas fa-pencil-alt"></td>
+			  <td> <a href="{{ url_for('main.delete_channel', id=value['channel_id']) }}" class="fas fa-times"></td>
 			</tr>
 		{% endfor%}
 		</tbody>

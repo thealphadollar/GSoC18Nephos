@@ -9,12 +9,21 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-87DrmpqHRiY8hPLIr7ByqhPIywuSsjuQAfMXAE0sMUpY3BM7nXjf+mLIUSvhDArs" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.2.1/font-awesome-animation.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 <script src="{{url_for('static', filename='scripts.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
 <meta charset="utf-8">
 </head>
 {% endblock %}
 <body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+    <div class="alert alert-{{category}}" role="alert">
+        {{message}}
+    </div>
+  {% endfor %}
+  {% endif %}
+{% endwith %}
 {% block content %}
 {% endblock %}
 </body>

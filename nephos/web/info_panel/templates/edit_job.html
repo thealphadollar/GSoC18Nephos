@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+
+{% if form.errors %}
+    {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+        {% for error in field_errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ form[field_name].label }}: {{ error }}
+        </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+<form method="POST">
+	{{ form.csrf_token }}
+	<div class="form-group">
+    	{{ form.name.label }}
+    	{{ form.name(class="form-control") }}
+	</div>
+
+	<div class="form-group">
+    	{{ form.ip.label }}
+    	{{ form.ip(class="form-control") }}
+	</div>
+
+	<div class="form-group">
+    	{{ form.country_code.label }}
+    	{{ form.country_code(class="form-control") }}
+	</div>
+
+	<div class="form-group">
+    	{{ form.lang.label }}
+    	{{ form.lang(class="form-control") }}
+	</div>
+
+	<div class="form-group">
+    	{{ form.timezone.label }}
+    	{{ form.timezone(class="form-control") }}
+	</div>
+	{{ form.submit(class="btn btn-primary") }}
+
+
+</form>
+
+
+{% endblock %}

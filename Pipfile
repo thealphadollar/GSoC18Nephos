@@ -26,6 +26,7 @@ google-api-python-client = "*"
 "oauth2client" = "*"
 "flask" = "*"
 "Flask-SQLAlchemy" = "*"
+"Flask-WTF" = "*"
 
 [requires]
-python_version = "3.4"
+python_version = "3.7"
