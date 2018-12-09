@@ -63,19 +63,20 @@ def jobs():
     data = {}
 
     number = 0
-    for r in data_raw:
-        d = {'channel_name': r[0], 'next_run_time': str(r[1]), 'job_state': str(r[2])}
-        data[number] = dict(d)
-        number+=1
+    for row in data_raw:
+        dat = {'channel_name': row[0], 'next_run_time': str(row[1]), 'job_state': str(row[2])}
+        data[number] = dict(dat)
+        number += 1
 
-    return Response(json.dumps(data), mimetype='application/json') # http://codeandlife.com/2014/12/07/sqlalchemy-results-to-json-the-easy-way/
+    return Response(json.dumps(data), mimetype='application/json')
 
 @MAIN_BP.route('/jobs', methods=['GET'])
 def show_jobs():
-    
-    #<url>/jobs
-    
-    #View that Returns the jobs and displays them in a nice table
+    """
+    <url>/jobs
+
+    View that Returns the jobs and displays them in a nice table
+    """
 
     jobs_engine = DB.get_engine(APP, 'jobs')
     data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
@@ -83,9 +84,10 @@ def show_jobs():
     data = {}
 
     number = 0
-    for r in data_raw:
-        d = {'channel_name': r[0], 'next_run_time': str(r[1]), 'job_state': str(r[2])}
-        data[number] = dict(d)
-        number+=1
+    for row in data_raw:
+        dat = {'channel_name': row[0], 'next_run_time': str(row[1]), 'job_state': str(row[2])}
+        data[number] = dict(dat)
+        number += 1
 
     return render_template('jobs.html', jobs=data)
+

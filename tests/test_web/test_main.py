@@ -24,9 +24,9 @@ class test_Controllers(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assert_template_used('channels.html')
 
-    def test_channels_api(self):
+    def test_jobs_api(self):
         """
-        Test if Channel works properly
+        Test if Jobs API works properly
         """
         response = self.app.test_client().get('/api/channels')
         self.assertEqual(response.status_code, 200)
@@ -43,14 +43,4 @@ class test_Controllers(BaseTestCase):
         response = self.app.test_client().get('/jobs')
         self.assertEqual(response.status_code, 200)
         self.assert_template_used('jobs.html')
-
-    def test_channels_api(self):
-        """
-        Test if Jobs works properly
-        """
-        response = self.app.test_client().get('/api/jobs')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("al_rojo_vivo_previo", str(response.data))
-        self.assertIn("1532080800.0", str(response.data))
-        self.assertIn(".triggers.interval", str(response.data))
-
+        
