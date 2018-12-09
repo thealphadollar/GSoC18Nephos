@@ -5,10 +5,11 @@ Controller Responsible for Handling the main page
 
 """
 import json
+from datetime import datetime
 from flask import render_template, Response
 from ..main import MAIN_BP
 from .. import DB, APP
-from datetime import datetime
+
 
 @MAIN_BP.route('/', methods=['GET'])
 def homepage():
