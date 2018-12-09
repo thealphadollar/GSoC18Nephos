@@ -8,8 +8,7 @@ import json
 from flask import render_template, Response
 from ..main import MAIN_BP
 from .. import DB, APP
-
-
+from datetime import datetime
 
 @MAIN_BP.route('/', methods=['GET'])
 def homepage():
@@ -85,7 +84,9 @@ def show_jobs():
 
     number = 0
     for row in data_raw:
-        dat = {'channel_name': row[0], 'next_run_time': str(row[1]), 'job_state': str(row[2])}
+        timestamp = int(row[1])
+        date = datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+        dat = {'channel_name': row[0], 'next_run_time': str(date)}
         data[number] = dict(dat)
         number += 1
 
