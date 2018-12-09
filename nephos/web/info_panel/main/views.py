@@ -57,13 +57,20 @@ def jobs():
     View that Returns the jobs
 
     """
+
+    # This is Used to get the Jobs Database instead of storage.db
     jobs_engine = DB.get_engine(APP, 'jobs')
     data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
 
     data = {}
 
     number = 0
+    
+    # Put Everything in a Global Dict so we can later send it as a JSON
     for row in data_raw:
+    # This Function exists because the one line solution didn't work
+
+    # Create a Dictionary and Put it inside a Main Dictionary
         dat = {'job_name': row[0], 'next_run_time': str(row[1]), 'job_state': str(row[2])}
         data[number] = dict(dat)
         number += 1
@@ -78,16 +85,24 @@ def show_jobs():
     View that Returns the jobs and displays them in a nice table
     """
 
+    # This is Used to get the Jobs Database instead of storage.db
     jobs_engine = DB.get_engine(APP, 'jobs')
     data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
     
     data = {}
 
     number = 0
+
+    # Convert into Dict so Jinja Can Easily Parse it
     for row in data_raw:
+    # This Function exists because the one line solution didn't work
+
+    # Convert to Human Readable Date
         timestamp = int(row[1])
         date = datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-        dat = {'channel_name': row[0], 'next_run_time': str(date)}
+            
+    # Create a Dictionary and Put it inside a Main Dictionary
+    dat = {'channel_name': row[0], 'next_run_time': str(date)}
         data[number] = dict(dat)
         number += 1
 
