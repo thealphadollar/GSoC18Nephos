@@ -64,7 +64,7 @@ def jobs():
 
     number = 0
     for row in data_raw:
-        dat = {'channel_name': row[0], 'next_run_time': str(row[1]), 'job_state': str(row[2])}
+        dat = {'job_name': row[0], 'next_run_time': str(row[1]), 'job_state': str(row[2])}
         data[number] = dict(dat)
         number += 1
 
