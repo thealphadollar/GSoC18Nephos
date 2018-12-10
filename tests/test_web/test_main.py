@@ -83,11 +83,23 @@ class test_Controllers(BaseTestCase):
         print(str(queryToChange['channel_id']))
 
         self.assertEqual(response.status_code, 200)
+        self.assertIn('Edit Successful!', str(response.data))
 
 
     def test_channel_delete(self):
         """
         Test Delete for Channel
         """
-        response = self.app.test_client().get('/delete/channel/1')
+        # Create New Channel
+        data=dict(name="kanal5", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc")
+
+        response = self.app.test_client().post('/add/channel', data=data, follow_redirects=True)
+
+        # Get ID of what we want to edit
+        queryToChange = DB.session.execute('SELECT * FROM channels WHERE name="kanal5"').first() 
+
+        response = self.app.test_client().get('/delete/channel/{}' 
+            .format(queryToChange['channel_id']), data=dict(submit=True), follow_redirects=True)
+
         self.assertEqual(response.status_code, 200)
+        self.assertIn('Delete Successful!', str(response.data))
