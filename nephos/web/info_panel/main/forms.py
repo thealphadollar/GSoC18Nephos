@@ -25,5 +25,6 @@ class JobForm(FlaskForm):
     """
     This is a Form used to created new jobs and edit existing ones
     """
-    name = StringField('Channel Name', [validators.Length(min=2, max=50)])
+    name = StringField('Job Name', [validators.Length(min=2, max=50)])
     next_run_time = StringField('Next Run Time', [validators.Length(min=2, max=50)])
+    submit = SubmitField('Submit')

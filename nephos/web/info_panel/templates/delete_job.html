@@ -8,7 +8,7 @@
     <form method="POST">
     	{{ form.csrf_token }}
     	{{ form.submit(class="btn btn-success") }}
-    	<button type="button" class="btn btn-secondary" onclick="location.href='{{ url_for('main.jobs') }}'">Cancel</button>
+    	<button type="button" class="btn btn-secondary" onclick="location.href='{{ url_for('main.show_jobs') }}'">Cancel</button>
     </form>    
   </div>
 {% endblock %}
