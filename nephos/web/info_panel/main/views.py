@@ -157,7 +157,8 @@ def edit_channel(id):
         timezone = form.timezone.data
 
         # Update the Database Record
-        query = DB.session.execute("UPDATE channels SET name='{}', ip='{}', country_code='{}', lang='{}', timezone='{}' WHERE channel_id={}".format(
+        query = DB.session.execute("UPDATE channels SET name='{}', ip='{}', \
+            country_code='{}', lang='{}', timezone='{}' WHERE channel_id={}".format(
             name, ip, country_code, lang, timezone, id))
         flash('Edit Successful!', 'success')
         return redirect(url_for('main.show_channels'))
@@ -237,14 +238,16 @@ def edit_job(id):
     jobs_engine = DB.get_engine(APP, 'jobs')
     #entry = jobs_engine.execute('SELECT * FROM apscheduler_jobs WHERE id={};'.format(id)).fetchone()
     entry = jobs_engine.execute(
-        'SELECT * FROM apscheduler_jobs WHERE next_run_time=telediario_matinal;'.format(id)).fetchone()
+        'SELECT * FROM apscheduler_jobs WHERE next_run_time=telediario_matinal;'
+        .format(id)).fetchone()
     print(entry)
     form = JobForm(obj=entry)
 
     # Validate That Everything is statisfied in the Form
     if form.validate_on_submit():
         print(form.data)
-        #query = DB.session.execute("UPDATE apscheduler_jobs SET next_run_time='{}' WHERE id={}".format(name, ip, country_code, lang, timezone, id))
+        #query = DB.session.execute("UPDATE apscheduler_jobs SET next_run_time='{}' \
+        #WHERE id={}".format(name, ip, country_code, lang, timezone, id))
         flash('Edit Successful!', 'success')
         return redirect(url_for('main.show_jobs'))
 
@@ -259,10 +262,10 @@ def add_job():
     View that adds a Job
 
     """
-    form = channel_form()
+    form = JobForm()
 
     if form.validate_on_submit():
-        query = DB.session.execute("INSERT INTO apscheduler_jobs (name, ip, \
+        DB.session.execute("INSERT INTO apscheduler_jobs (name, ip, \
             country_code, lang, timezone, status) \
             VALUES ('{}', '{}','{}', '{}', '{}', 'down')"
                                    .format(name, ip,
