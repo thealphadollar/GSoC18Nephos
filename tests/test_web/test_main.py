@@ -108,7 +108,8 @@ class test_Controllers(BaseTestCase):
             'SELECT * FROM channels WHERE name="kanal5"').first()
 
         response = self.app.test_client().get('/delete/channel/{}'
-                                              .format(query_to_change['channel_id']), data=dict(submit=True), 
+                                              .format(query_to_change['channel_id']), 
+                                              data=dict(submit=True), 
                                               follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
