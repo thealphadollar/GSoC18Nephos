@@ -11,6 +11,7 @@ from ..main import MAIN_BP
 from ..main.forms import DeleteForm, ChannelForm, JobForm
 from .. import DB, APP
 
+
 @MAIN_BP.route('/', methods=['GET'])
 def homepage():
     """
@@ -48,11 +49,12 @@ def show_channels():
     channels = [dict(r) for r in data]
     return render_template('channels.html', channels=channels)
 
+
 @MAIN_BP.route('/api/jobs', methods=['GET'])
 def jobs():
     """
     <url>/api/jobs
-    
+
     View that Returns the jobs
 
     """
@@ -64,17 +66,19 @@ def jobs():
     data = {}
 
     number = 0
-    
+
     # Put Everything in a Global Dict so we can later send it as a JSON
     for row in data_raw:
-    # This Function exists because the one line solution didn't work
+        # This Function exists because the one line solution didn't work
 
-    # Create a Dictionary and Put it inside a Main Dictionary
-        dat = {'job_name': row[0], 'next_run_time': str(row[1]), 'job_state': str(row[2])}
+        # Create a Dictionary and Put it inside a Main Dictionary
+        dat = {'job_name': row[0], 'next_run_time': str(
+            row[1]), 'job_state': str(row[2])}
         data[number] = dict(dat)
         number += 1
 
     return Response(json.dumps(data), mimetype='application/json')
+
 
 @MAIN_BP.route('/jobs', methods=['GET'])
 def show_jobs():
@@ -87,26 +91,28 @@ def show_jobs():
     # This is Used to get the Jobs Database instead of storage.db
     jobs_engine = DB.get_engine(APP, 'jobs')
     data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
-    
+
     data = {}
 
     number = 0
 
     # Convert into Dict so Jinja Can Easily Parse it
     for row in data_raw:
-    # This Function exists because the one line solution didn't work
+        # This Function exists because the one line solution didn't work
 
-    # Convert to Human Readable Date
+        # Convert to Human Readable Date
         timestamp = int(row[1])
-        date = datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-            
+        date = datetime.utcfromtimestamp(
+            timestamp).strftime('%Y-%m-%d %H:%M:%S')
+
         # Create a Dictionary and Put it inside a Main Dictionary
         dat = {'channel_name': row[0], 'next_run_time': str(date)}
         data[number] = dict(dat)
         number += 1
 
     return render_template('jobs.html', jobs=data)
-  
+
+
 @MAIN_BP.route('/delete/channel/<id>', methods=['GET', 'POST'])
 def delete_channel(id):
     """
@@ -121,10 +127,12 @@ def delete_channel(id):
     # Validate if the Form statisfies everything in this case a button press
     if form.validate_on_submit():
         # Execute Deletion inside the database
-        query = DB.session.execute("DELETE FROM channels WHERE channel_id={}".format(id))
+        query = DB.session.execute(
+            "DELETE FROM channels WHERE channel_id={}".format(id))
         flash('Delete Successful!', 'success')
         return redirect(url_for('main.show_channels'))
     return render_template('delete_channel.html', form=form)
+
 
 @MAIN_BP.route('/edit/channel/<id>', methods=['GET', 'POST'])
 def edit_channel(id):
@@ -134,7 +142,8 @@ def edit_channel(id):
     View that edits a Channel
 
     """
-    entry = DB.session.execute('SELECT * FROM channels WHERE channel_id={};'.format(id)).fetchone()
+    entry = DB.session.execute(
+        'SELECT * FROM channels WHERE channel_id={};'.format(id)).fetchone()
     # Prefill Form with data from Database
     form = ChannelForm(obj=entry)
 
@@ -148,11 +157,13 @@ def edit_channel(id):
         timezone = form.timezone.data
 
         # Update the Database Record
-        query = DB.session.execute("UPDATE channels SET name='{}', ip='{}', country_code='{}', lang='{}', timezone='{}' WHERE channel_id={}".format(name, ip, country_code, lang, timezone, id))
+        query = DB.session.execute("UPDATE channels SET name='{}', ip='{}', country_code='{}', lang='{}', timezone='{}' WHERE channel_id={}".format(
+            name, ip, country_code, lang, timezone, id))
         flash('Edit Successful!', 'success')
         return redirect(url_for('main.show_channels'))
 
     return render_template('edit_channel.html', form=form)
+
 
 @MAIN_BP.route('/add/channel', methods=['GET', 'POST'])
 def add_channel():
@@ -177,9 +188,9 @@ def add_channel():
         # Insert The Data from the Form into the Database
         query = DB.session.execute("INSERT INTO channels (name, ip, \
             country_code, lang, timezone, status) \
-            VALUES ('{}', '{}','{}', '{}', '{}', 'down')" \
-            .format(name, ip, 
-                country_code, lang, timezone))
+            VALUES ('{}', '{}','{}', '{}', '{}', 'down')"
+                                   .format(name, ip,
+                                           country_code, lang, timezone))
 
         flash('Channel Added Successfuly!', 'success')
         return redirect(url_for('main.show_channels'))
@@ -206,10 +217,12 @@ def delete_job(id):
     if form.validate_on_submit():
         # Execute Deletion but Select the other Database
         jobs_engine = DB.get_engine(APP, 'jobs')
-        query = jobs_engine.execute("DELETE FROM apscheduler_jobs WHERE channel_id={}".format(id))
+        query = jobs_engine.execute(
+            "DELETE FROM apscheduler_jobs WHERE channel_id={}".format(id))
         flash('Delete Successful!', 'success')
         return redirect(url_for('main.show_jobs'))
     return render_template('delete_jobs.html', form=form)
+
 
 @MAIN_BP.route('/edit/job/<id>', methods=['GET', 'POST'])
 def edit_job(id):
@@ -223,7 +236,8 @@ def edit_job(id):
     # Select The Other Database and Find The Record
     jobs_engine = DB.get_engine(APP, 'jobs')
     #entry = jobs_engine.execute('SELECT * FROM apscheduler_jobs WHERE id={};'.format(id)).fetchone()
-    entry = jobs_engine.execute('SELECT * FROM apscheduler_jobs WHERE next_run_time=telediario_matinal;'.format(id)).fetchone()
+    entry = jobs_engine.execute(
+        'SELECT * FROM apscheduler_jobs WHERE next_run_time=telediario_matinal;'.format(id)).fetchone()
     print(entry)
     form = JobForm(obj=entry)
 
@@ -235,6 +249,7 @@ def edit_job(id):
         return redirect(url_for('main.show_jobs'))
 
     return render_template('edit_job.html', form=form)
+
 
 @MAIN_BP.route('/add/job', methods=['GET', 'POST'])
 def add_job():
@@ -249,9 +264,9 @@ def add_job():
     if form.validate_on_submit():
         query = DB.session.execute("INSERT INTO apscheduler_jobs (name, ip, \
             country_code, lang, timezone, status) \
-            VALUES ('{}', '{}','{}', '{}', '{}', 'down')" \
-            .format(name, ip, 
-                country_code, lang, timezone))
+            VALUES ('{}', '{}','{}', '{}', '{}', 'down')"
+                                   .format(name, ip,
+                                           country_code, lang, timezone))
 
         flash('Job Added Successfuly!', 'success')
         return redirect(url_for('main.show_jobs'))
