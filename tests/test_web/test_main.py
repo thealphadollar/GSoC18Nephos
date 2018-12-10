@@ -84,7 +84,8 @@ class test_Controllers(BaseTestCase):
         data = dict(name="1tv", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc",
                     submit=True)
 
-        response = self.app.test_client().get('/edit/channel/{}'.format(queryToChange['channel_id']),
+        response = self.app.test_client().get('/edit/channel/{}'
+            .format(queryToChange['channel_id']),
                                               data=data, follow_redirects=True)
         print(str(queryToChange['channel_id']))
 
