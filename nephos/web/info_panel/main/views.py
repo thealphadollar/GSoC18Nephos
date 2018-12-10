@@ -236,9 +236,7 @@ def edit_job(id):
 
     # Select The Other Database and Find The Record
     jobs_engine = DB.get_engine(APP, 'jobs')
-    #entry = jobs_engine.execute('SELECT * FROM apscheduler_jobs WHERE id={};'.format(id)).fetchone()
-    entry = jobs_engine.execute(
-        'SELECT * FROM apscheduler_jobs WHERE next_run_time=telediario_matinal;'
+    entry = jobs_engine.execute('SELECT * FROM apscheduler_jobs WHERE id={};'
         .format(id)).fetchone()
     print(entry)
     form = JobForm(obj=entry)
@@ -254,6 +252,7 @@ def edit_job(id):
     return render_template('edit_job.html', form=form)
 
 
+
 @MAIN_BP.route('/add/job', methods=['GET', 'POST'])
 def add_job():
     """
@@ -265,11 +264,11 @@ def add_job():
     form = JobForm()
 
     if form.validate_on_submit():
-        DB.session.execute("INSERT INTO apscheduler_jobs (name, ip, \
-            country_code, lang, timezone, status) \
-            VALUES ('{}', '{}','{}', '{}', '{}', 'down')"
-                                   .format(name, ip,
-                                           country_code, lang, timezone))
+        #DB.session.execute("INSERT INTO apscheduler_jobs (name, ip, \
+        #    country_code, lang, timezone, status) \
+        #    VALUES ('{}', '{}','{}', '{}', '{}', 'down')"
+        #                           .format(name, ip,
+        #                                   country_code, lang, timezone))
 
         flash('Job Added Successfuly!', 'success')
         return redirect(url_for('main.show_jobs'))
