@@ -5,10 +5,12 @@ from unittest import TestCase, mock
 from tests.test_web.base import BaseTestCase
 from nephos.web.info_panel import DB
 
+
 class test_Controllers(BaseTestCase):
     """
     Test Cases for the Main Views
     """
+
     def test_root(self):
         """
         Test the root
@@ -36,7 +38,7 @@ class test_Controllers(BaseTestCase):
         self.assertIn("239.255.20.19:1234", str(response.data))
         self.assertIn("spa", str(response.data))
         self.assertIn("up", str(response.data))
-        
+
     def test_jobs(self):
         """
         Test if Jobs works properly
@@ -44,62 +46,68 @@ class test_Controllers(BaseTestCase):
         response = self.app.test_client().get('/jobs')
         self.assertEqual(response.status_code, 200)
         self.assert_template_used('jobs.html')
-        
+
     def test_channel_add(self):
         """
         Test Adding Channels
         """
-        data=dict(name="kanal5", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc", 
-            submit=True)
-        response = self.app.test_client().get('/add/channel', data=data, follow_redirects=True)
+        data = dict(name="kanal5", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc",
+                    submit=True)
+        response = self.app.test_client().get(
+            '/add/channel', data=data, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
         #self.assertMessageFlashed('Channel Added Successfuly!')
         self.assertIn('Channel Added Successfuly!', str(response.data))
 
-        query = DB.session.execute('SELECT * FROM channels WHERE name="kanal5').firstone() 
+        query = DB.session.execute(
+            'SELECT * FROM channels WHERE name="kanal5').firstone()
         self.assertEqual(query['name'], 'kanal5')
 
     def test_channel_edit(self):
         """
         Test Edit for Channel
         """
-        
-        # Create New Channel
-        data=dict(name="kanal5", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc")
 
-        response = self.app.test_client().post('/add/channel', data=data, follow_redirects=True)
+        # Create New Channel
+        data = dict(name="kanal5", ip="31.12.16.0",
+                    country_code="mkd", lang="mkd", timezone="utc")
+
+        response = self.app.test_client().post(
+            '/add/channel', data=data, follow_redirects=True)
 
         # Get ID of what we want to edit
-        queryToChange = DB.session.execute('SELECT * FROM channels WHERE name="kanal5"').first() 
-
+        queryToChange = DB.session.execute(
+            'SELECT * FROM channels WHERE name="kanal5"').first()
 
         # Edit Channel
-        data=dict(name="1tv", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc", 
-            submit=True)
+        data = dict(name="1tv", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc",
+                    submit=True)
 
-        response = self.app.test_client().get('/edit/channel/{}'.format(queryToChange['channel_id']), 
-            data=data, follow_redirects=True)
+        response = self.app.test_client().get('/edit/channel/{}'.format(queryToChange['channel_id']),
+                                              data=data, follow_redirects=True)
         print(str(queryToChange['channel_id']))
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('Edit Successful!', str(response.data))
-
 
     def test_channel_delete(self):
         """
         Test Delete for Channel
         """
         # Create New Channel
-        data=dict(name="kanal5", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc")
+        data = dict(name="kanal5", ip="31.12.16.0",
+                    country_code="mkd", lang="mkd", timezone="utc")
 
-        response = self.app.test_client().post('/add/channel', data=data, follow_redirects=True)
+        response = self.app.test_client().post(
+            '/add/channel', data=data, follow_redirects=True)
 
         # Get ID of what we want to edit
-        queryToChange = DB.session.execute('SELECT * FROM channels WHERE name="kanal5"').first() 
+        queryToChange = DB.session.execute(
+            'SELECT * FROM channels WHERE name="kanal5"').first()
 
-        response = self.app.test_client().get('/delete/channel/{}' 
-            .format(queryToChange['channel_id']), data=dict(submit=True), follow_redirects=True)
+        response = self.app.test_client().get('/delete/channel/{}'
+                                              .format(queryToChange['channel_id']), data=dict(submit=True), follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('Delete Successful!', str(response.data))

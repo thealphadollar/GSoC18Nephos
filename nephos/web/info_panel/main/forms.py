@@ -2,7 +2,7 @@
 This are all the forms used in the Web app
 """
 from flask_wtf import FlaskForm
-from wtforms import Form, StringField, validators, SubmitField
+from wtforms import StringField, validators, SubmitField
 
 
 class ChannelForm(FlaskForm):
