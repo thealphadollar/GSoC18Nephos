@@ -1,17 +1,29 @@
+"""
+This are all the forms used in the Web app
+"""
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, validators, SubmitField 
 
 class channel_form(FlaskForm):
-	name = StringField('Channel Name', [validators.Length(min=2, max=50)])
-	ip = StringField('IP Address')
-	country_code = StringField('Country Code', [validators.Length(min=3, max=5,)])
-	lang = StringField('Language Code', [validators.Length(min=3, max=25)])
-	timezone = StringField('Timezone', [validators.Length(min=3, max=5)])
-	submit = SubmitField('Submit')
+    """
+    This Is a Form used to create new channels and edit existing ones
+    """
+    name = StringField('Channel Name', [validators.Length(min=2, max=50)])
+    ip = StringField('IP Address')
+    country_code = StringField('Country Code', [validators.Length(min=3, max=5,)])
+    lang = StringField('Language Code', [validators.Length(min=3, max=25)])
+    timezone = StringField('Timezone', [validators.Length(min=3, max=5)])
+    submit = SubmitField('Submit')
 
 class delete_form(FlaskForm):
-	submit = SubmitField('Confirm')
+    """
+    This is a Form that confirms Deletions
+    """
+    submit = SubmitField('Confirm')
 
 class job_form(FlaskForm):
-	name = StringField('Channel Name', [validators.Length(min=2, max=50)])
-	next_run_time = StringField('Next Run Time', [validators.Length(min=2, max=50)])
+    """
+    This is a Form used to created new jobs and edit existing ones
+    """
+    name = StringField('Channel Name', [validators.Length(min=2, max=50)])
+    next_run_time = StringField('Next Run Time', [validators.Length(min=2, max=50)])
