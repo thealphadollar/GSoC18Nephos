@@ -77,7 +77,7 @@ class test_Controllers(BaseTestCase):
             '/add/channel', data=data, follow_redirects=True)
 
         # Get ID of what we want to edit
-        queryToChange = DB.session.execute(
+        query_to_change = DB.session.execute(
             'SELECT * FROM channels WHERE name="kanal5"').first()
 
         # Edit Channel
@@ -85,9 +85,9 @@ class test_Controllers(BaseTestCase):
                     submit=True)
 
         response = self.app.test_client().get('/edit/channel/{}'
-            .format(queryToChange['channel_id']),
+            .format(query_to_change['channel_id']),
                                               data=data, follow_redirects=True)
-        print(str(queryToChange['channel_id']))
+        print(str(query_to_change['channel_id']))
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('Edit Successful!', str(response.data))
@@ -104,11 +104,12 @@ class test_Controllers(BaseTestCase):
             '/add/channel', data=data, follow_redirects=True)
 
         # Get ID of what we want to edit
-        queryToChange = DB.session.execute(
+        query_to_change = DB.session.execute(
             'SELECT * FROM channels WHERE name="kanal5"').first()
 
         response = self.app.test_client().get('/delete/channel/{}'
-                                              .format(queryToChange['channel_id']), data=dict(submit=True), follow_redirects=True)
+                                              .format(query_to_change['channel_id']), data=dict(submit=True), 
+                                              follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('Delete Successful!', str(response.data))
