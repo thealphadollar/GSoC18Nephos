@@ -7,7 +7,7 @@ Controller Responsible for Handling the main page
 import json
 from flask import render_template, Response, redirect, url_for, flash
 from ..main import MAIN_BP
-from ..main.forms import edit_channel_form, delete_form, channel_form
+from ..main.forms import DeleteForm, ChannelForm
 from .. import DB
 
 
@@ -52,12 +52,12 @@ def show_channels():
 @MAIN_BP.route('/delete/channel/<id>', methods=['GET', 'POST'])
 def delete_channel(id):
     """
-    <url>/
+    <url>/delete/channel/<id>
 
-    View that Renders the Homepage
+    View that Deletes a channel
 
     """
-    form = delete_form()
+    form = DeleteForm()
     if form.validate_on_submit():
         query = DB.session.execute("DELETE FROM channels WHERE channel_id={}".format(id))
         flash('Delete Successful!', 'success')
@@ -73,7 +73,7 @@ def edit_channel(id):
 
     """
     entry = DB.session.execute('SELECT * FROM channels WHERE channel_id={};'.format(id)).fetchone()
-    form = channel_form(obj=entry)
+    form = ChannelForm(obj=entry)
 
     if form.validate_on_submit():
         name = form.name.data
@@ -96,7 +96,7 @@ def add_channel():
     View that adds a Channel
 
     """
-    form = channel_form()
+    form = ChannelForm()
 
     if form.validate_on_submit():
         name = form.name.data

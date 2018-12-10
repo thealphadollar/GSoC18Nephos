@@ -4,7 +4,7 @@ This are all the forms used in the Web app
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, validators, SubmitField 
 
-class channel_form(FlaskForm):
+class ChannelForm(FlaskForm):
     """
     This Is a Form used to create new channels and edit existing ones
     """
@@ -15,13 +15,13 @@ class channel_form(FlaskForm):
     timezone = StringField('Timezone', [validators.Length(min=3, max=5)])
     submit = SubmitField('Submit')
 
-class delete_form(FlaskForm):
+class DeleteForm(FlaskForm):
     """
     This is a Form that confirms Deletions
     """
     submit = SubmitField('Confirm')
 
-class job_form(FlaskForm):
+class JobForm(FlaskForm):
     """
     This is a Form used to created new jobs and edit existing ones
     """
