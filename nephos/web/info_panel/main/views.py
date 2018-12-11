@@ -10,6 +10,7 @@ import sys
 sys.path.append("../..")
 
 import json
+from logging import getLogger
 from datetime import datetime
 from flask import render_template, Response, redirect, url_for, flash
 from ..main import MAIN_BP
@@ -17,6 +18,8 @@ from ..main.forms import DeleteForm, ChannelForm, JobForm
 from .. import DB, APP
 from nephos.recorder.jobs import JobHandler
 from nephos.manage_db import DBHandler
+
+LOG = getLogger(__name__)
 
 @MAIN_BP.route('/', methods=['GET'])
 def homepage():
