@@ -13,12 +13,14 @@ from logging import getLogger
 import json
 from datetime import datetime
 from flask import render_template, Response, redirect, url_for, flash
-from ..main import MAIN_BP
-from ..main.forms import DeleteForm, ChannelForm, JobForm
-from .. import DB, APP
 from nephos.recorder.jobs import JobHandler
 from nephos.manage_db import DBHandler
 from nephos.exceptions import DBException
+from nephos import validate_entries
+from ..main import MAIN_BP
+from ..main.forms import DeleteForm, ChannelForm, JobForm
+from .. import DB, APP
+
 
 LOG = getLogger(__name__)
 

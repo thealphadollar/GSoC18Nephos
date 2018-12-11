@@ -59,7 +59,7 @@ Nephos has a Web Interface that you can see how everything works. To get started
 
 Currently the web app offers for you to see which channels are in the database and perform Update, Delete, Add Operations on them. To get started visit `\channels`
 
-Currently you can only see which jobs are in the database and can be accessed by visiting the url flask provides with the following path `/jobs`
+Currently you can only see which jobs are in the database and add new ones. And can be accessed by visiting the url flask provides with the following path `\jobs`
 
 ## Developer Documentation
 Developers can view the documentation that is present for users since it is detailed and one needs to read it in order to understand how Nephos functions. Along with that, docstrings have been placed in HTML format in

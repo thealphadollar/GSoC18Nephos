@@ -115,7 +115,7 @@ class test_Controllers(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn('Delete Successful!', str(response.data))
 
-    def test_channel_add(self):
+    def test_job_add(self):
         """
         Test Addition for Jobs
         """

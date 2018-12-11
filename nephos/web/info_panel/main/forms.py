@@ -33,5 +33,6 @@ class JobForm(FlaskForm):
     channel_name = StringField('Channel Name', [validators.Length(min=2, max=50)])
     start_time = StringField('Start Time [HH:MM]', [validators.Length(min=2, max=50)])
     duration = IntegerField('Duration in Minutes', [])
-    rep = StringField('Run on [eg. 1010000 for monday and wednesday]', [validators.Length(min=2, max=50)])
+    rep = StringField('Run on [eg. 1010000 for monday and wednesday]', 
+        [validators.Length(min=2, max=50)])
     submit = SubmitField('Submit')
