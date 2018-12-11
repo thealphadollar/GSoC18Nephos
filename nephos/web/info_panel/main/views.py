@@ -145,14 +145,12 @@ def delete_channel(id):
         return redirect(url_for('main.show_channels'))
     return render_template('delete_channel.html', form=form)
 
-
 @MAIN_BP.route('/edit/channel/<id>', methods=['GET', 'POST'])
 def edit_channel(id):
     """
     <url>/edit/<id>
 
     View that edits a Channel
-
     """
     entry = DB.session.execute(
         'SELECT * FROM channels WHERE channel_id={};'.format(id)).fetchone()
@@ -212,8 +210,6 @@ def add_channel():
     return render_template('edit_channel.html', form=form)
 
 
-# ========== Todo: Fix up Database Handlers here ↓
-
 @MAIN_BP.route('/delete/job/<id>', methods=['GET', 'POST'])
 def delete_job(id):
     """
@@ -236,15 +232,16 @@ def delete_job(id):
         return redirect(url_for('main.show_jobs'))
     return render_template('delete_jobs.html', form=form)
 
-
+# There is no Function to Update the jobs
+"""
 @MAIN_BP.route('/edit/job/<id>', methods=['GET', 'POST'])
 def edit_job(id):
-    """
-    <url>/edit/job/<id>
+    
+    #<url>/edit/job/<id>
 
-    View that edits a Job
+    #View that edits a Job
 
-    """
+    
 
     # Select The Other Database and Find The Record
     jobs_engine = DB.get_engine(APP, 'jobs')
@@ -262,8 +259,7 @@ def edit_job(id):
         return redirect(url_for('main.show_jobs'))
 
     return render_template('edit_job.html', form=form)
-
-
+"""
 
 @MAIN_BP.route('/add/job', methods=['GET', 'POST'])
 def add_job():

@@ -13,7 +13,7 @@
 			  <th scope="col">ID</th>
 			  <th scope="col">Job Name</th>
 			  <th scope="col">Next Run Time</th>
-			  <th scope="col">Edit</th>
+			 {# <th scope="col">Edit</th> #}
 			  <th scope="col">Delete</th>
 			</tr>
 		</thead>
@@ -23,7 +23,7 @@
 			  <td>{{ value }}</td>
 			  <td>{{ jobs[value]["channel_name"] }}</td>
 			  <td>{{ jobs[value]["next_run_time"] }}</td>
-			  <td> <a href="{{ url_for('main.edit_job', id=value+1) }}" class="fas fa-pencil-alt"></td>
+			 {# <td> <a href="{{ url_for('main.edit_job', id=value+1) }}" class="fas fa-pencil-alt"></td> #}
 			  <td> <a href="{{ url_for('main.delete_job', id=value+1) }}" class="fas fa-times"></td>
 			</tr>
 		{% endfor%}
