@@ -9,8 +9,8 @@ Controller Responsible for Handling the main page
 import sys
 sys.path.append("../..")
 
-import json
 from logging import getLogger
+import json
 from datetime import datetime
 from flask import render_template, Response, redirect, url_for, flash
 from ..main import MAIN_BP
@@ -18,6 +18,7 @@ from ..main.forms import DeleteForm, ChannelForm, JobForm
 from .. import DB, APP
 from nephos.recorder.jobs import JobHandler
 from nephos.manage_db import DBHandler
+from nephos.exceptions import DBException
 
 LOG = getLogger(__name__)
 
@@ -289,8 +290,8 @@ def add_job():
         except DBException as err:
             # Well something went wrong might as well log it and alert
             flash('Job Addition failed!', 'danger')
-            return redirect(url_for('main.show_jobs'))
             LOG.warning("Data addition failed")
             LOG.debug(err)
+            return redirect(url_for('main.show_jobs'))
 
     return render_template('edit_job.html', form=form)
