@@ -2,7 +2,7 @@
 This are all the forms used in the Web app
 """
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, SubmitField
+from wtforms import StringField, validators, SubmitField, IntegerField
 
 
 class ChannelForm(FlaskForm):
@@ -30,6 +30,8 @@ class JobForm(FlaskForm):
     This is a Form used to created new jobs and edit existing ones
     """
     name = StringField('Job Name', [validators.Length(min=2, max=50)])
-    next_run_time = StringField(
-        'Next Run Time', [validators.Length(min=2, max=50)])
+    channel_name = StringField('Channel Name', [validators.Length(min=2, max=50)])
+    start_time = StringField('Start Time [HH:MM]', [validators.Length(min=2, max=50)])
+    duration = IntegerField('Duration in Minutes', [])
+    rep = StringField('Run on [eg. 1010000 for monday and wednesday]', [validators.Length(min=2, max=50)])
     submit = SubmitField('Submit')

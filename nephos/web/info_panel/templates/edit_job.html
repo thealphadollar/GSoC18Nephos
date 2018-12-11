@@ -20,10 +20,24 @@
 	</div>
 
 	<div class="form-group">
-    	{{ form.next_run_time.label }}
-    	{{ form.next_run_time(class="form-control") }}
+    	{{ form.channel_name.label }}
+    	{{ form.channel_name(class="form-control") }}
 	</div>
 
+    <div class="form-group">
+        {{ form.start_time.label }}
+        {{ form.start_time(class="form-control") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.duration.label }}
+        {{ form.duration(class="form-control") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.rep.label }}
+        {{ form.rep(class="form-control") }}
+    </div>
 
 	{{ form.submit(class="btn btn-primary") }}
 

@@ -114,3 +114,19 @@ class test_Controllers(BaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('Delete Successful!', str(response.data))
+
+    def test_channel_add(self):
+        """
+        Test Addition for Jobs
+        """
+
+        data = dict(name="Love", channel_name="RandomTV",
+                    start_time="15:51", duration=60, rep="1010000", submit=True)
+
+        response = self.app.test_client().post(
+            '/add/jobs', data=data, follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Job Added Successfuly!', str(response.data))
+
+    

@@ -4,13 +4,19 @@ main/views.py
 Controller Responsible for Handling the main page
 
 """
+
+# Sigh, I didn't thought it would end up this far just to import the recorder
+import sys
+sys.path.append("../..")
+
 import json
 from datetime import datetime
 from flask import render_template, Response, redirect, url_for, flash
 from ..main import MAIN_BP
 from ..main.forms import DeleteForm, ChannelForm, JobForm
 from .. import DB, APP
-
+from nephos.recorder.jobs import JobHandler
+from nephos.manage_db import DBHandler
 
 @MAIN_BP.route('/', methods=['GET'])
 def homepage():
@@ -219,7 +225,7 @@ def delete_job(id):
         # Execute Deletion but Select the other Database
         jobs_engine = DB.get_engine(APP, 'jobs')
         query = jobs_engine.execute(
-            "DELETE FROM apscheduler_jobs WHERE channel_id={}".format(id))
+            "DELETE FROM apscheduler_jobs WHERE id={}".format(id))
         flash('Delete Successful!', 'success')
         return redirect(url_for('main.show_jobs'))
     return render_template('delete_jobs.html', form=form)
@@ -261,16 +267,27 @@ def add_job():
     View that adds a Job
 
     """
+    # Select the Form
     form = JobForm()
 
     if form.validate_on_submit():
-        #DB.session.execute("INSERT INTO apscheduler_jobs (name, ip, \
-        #    country_code, lang, timezone, status) \
-        #    VALUES ('{}', '{}','{}', '{}', '{}', 'down')"
-        #                           .format(name, ip,
-        #                                   country_code, lang, timezone))
+        # Clean Up Data and Send only the needed stuff
+        data = form.data
+        data.pop('csrf_token')
+        data.pop('submit')
 
-        flash('Job Added Successfuly!', 'success')
-        return redirect(url_for('main.show_jobs'))
+        try:
+            # insert_jobs needs a DB connection so why not open another one
+            with DBHandler.connect() as db_cur:
+                #  Insert the data and redirect
+                JobHandler.insert_jobs(db_cur, validate_entries(data))
+                flash('Job Added Successfuly!', 'success')
+                return redirect(url_for('main.show_jobs'))
+        except DBException as err:
+            # Well something went wrong might as well log it and alert
+            flash('Job Addition failed!', 'danger')
+            return redirect(url_for('main.show_jobs'))
+            LOG.warning("Data addition failed")
+            LOG.debug(err)
 
     return render_template('edit_job.html', form=form)
