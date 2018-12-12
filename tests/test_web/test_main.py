@@ -3,7 +3,7 @@ Test Controller responsible for testing all the views in the /main folder
 """
 from unittest import TestCase, mock
 from tests.test_web.base import BaseTestCase
-from nephos.web.info_panel import APP,DB
+from nephos.web.info_panel import APP, DB
 
 jobs_engine = DB.get_engine(APP, 'jobs')
 
@@ -156,3 +156,4 @@ class test_Controllers(BaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('Delete Successful!', str(response.data))
+        

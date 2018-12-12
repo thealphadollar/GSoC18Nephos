@@ -29,7 +29,7 @@ LOG = getLogger(__name__)
 scheduler = Scheduler(True)
 jobs_scheduler = JobHandler(scheduler)
 
-jobs_engine = DB.get_engine(APP, 'jobs')
+JOBS_ENGINE = DB.get_engine(APP, 'jobs')
 
 @MAIN_BP.route('/', methods=['GET'])
 def homepage():
@@ -79,7 +79,7 @@ def jobs():
     """
 
     # This is Used to get the Jobs Database instead of storage.db
-    data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
+    data_raw = JOBS_ENGINE.execute('SELECT * FROM apscheduler_jobs;')
 
     data = {}
 
@@ -107,7 +107,7 @@ def show_jobs():
     """
 
     # This is Used to get the Jobs Database instead of storage.db
-    data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
+    data_raw = JOBS_ENGINE.execute('SELECT * FROM apscheduler_jobs;')
 
     data = {}
 
@@ -223,10 +223,6 @@ def delete_job(name):
     View that Deletes a Job
 
     """
-
-    # This is Used to get the Jobs Database instead of storage.db
-    data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
-
     # Select The Form
     form = DeleteForm()
 
