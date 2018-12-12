@@ -30,8 +30,8 @@
 			  <td>{{ value[4] }}</td>
 			  <td>{{ value[5] }}</td>
 			  <td>{{ value[6] }}</td>
-			  <td> <a href="{{ url_for('main.edit_channel', id=value['channel_id']) }}" class="fas fa-pencil-alt"></td>
-			  <td> <a href="{{ url_for('main.delete_channel', id=value['channel_id']) }}" class="fas fa-times"></td>
+			  <td> <a href="{{ url_for('main.edit_channel', id=value[0]) }}" class="fas fa-pencil-alt"></td>
+			  <td> <a href="{{ url_for('main.delete_channel', id=value[0]) }}" class="fas fa-times"></td>
 			</tr>
 		{% endfor%}
 		</tbody>

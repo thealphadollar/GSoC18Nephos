@@ -315,8 +315,7 @@ def add_job():
 
         # This is the payload
         payload = {
-            0:{
-            }
+            0:{}
         }
 
         payload[0] = data
