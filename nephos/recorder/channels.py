@@ -79,7 +79,6 @@ class ChannelHandler:
 
         Returns
         -------
-
         """
         ch_data = validate_entries(ch_data)
         for key in ch_data.keys():
