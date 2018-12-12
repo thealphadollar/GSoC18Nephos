@@ -54,9 +54,8 @@ def channels():
     View that Returns the channel
 
     """
-    data = DB.session.execute('SELECT * FROM channels;')
-    # http://codeandlife.com/2014/12/07/sqlalchemy-results-to-json-the-easy-way/
-    return Response(json.dumps([dict(r) for r in data]), mimetype='application/json')
+    data = CHANNEL_HANDLER.grab_ch_list()
+    return Response(json.dumps(data), mimetype='application/json')
 
 
 @MAIN_BP.route('/channels', methods=['GET'])
@@ -68,9 +67,6 @@ def show_channels():
 
     """
     data = CHANNEL_HANDLER.grab_ch_list()
-    #data = DB.session.execute('SELECT * FROM channels;')
-    # http://codeandlife.com/2014/12/07/sqlalchemy-results-to-json-the-easy-way/
-    #channels = [dict(r) for r in data]
     return render_template('channels.html', channels=data)
 
 
@@ -206,12 +202,19 @@ def add_channel():
         country_code = form.country_code.data
         timezone = form.timezone.data
 
+        payload = {
+            0: {
+                "name": name,
+                "ip": ip,
+                "country_code": country_code,
+                "lang": lang,
+                "timezone": timezone
+            }
+        }
+
+        CHANNEL_HANDLER.insert_channels(payload)
+
         # Insert The Data from the Form into the Database
-        query = DB.session.execute("INSERT INTO channels (name, ip, \
-            country_code, lang, timezone, status) \
-            VALUES ('{}', '{}','{}', '{}', '{}', 'down')"
-                                   .format(name, ip,
-                                           country_code, lang, timezone))
 
         flash('Channel Added Successfuly!', 'success')
         return redirect(url_for('main.show_channels'))
