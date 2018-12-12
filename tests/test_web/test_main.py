@@ -3,8 +3,9 @@ Test Controller responsible for testing all the views in the /main folder
 """
 from unittest import TestCase, mock
 from tests.test_web.base import BaseTestCase
-from nephos.web.info_panel import DB
+from nephos.web.info_panel import APP,DB
 
+jobs_engine = DB.get_engine(APP, 'jobs')
 
 class test_Controllers(BaseTestCase):
     """
@@ -124,9 +125,34 @@ class test_Controllers(BaseTestCase):
                     start_time="15:51", duration=60, rep="1010000", submit=True)
 
         response = self.app.test_client().post(
-            '/add/jobs', data=data, follow_redirects=True)
+            '/add/job', data=data, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('Job Added Successfuly!', str(response.data))
 
-    
+    def test_job_edit(self):
+        """
+        Test Editting for Jobs
+        """
+
+        data = dict(name="Rick And Morty", channel_name="RandomTV",
+                    start_time="15:51", duration=60, rep="1010000", submit=True)
+
+        response = self.app.test_client().post(
+            '/edit/job/RandomTV', data=data, follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Edit Successful!', str(response.data))
+
+    def test_job_deletion(self):
+        """
+        Test Addition for Jobs
+        """
+        data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;').fetchone()
+        name = data_raw['next_run_time']
+
+        response = self.app.test_client().post(
+            '/delete/job/{}'.format(name), data=dict(Submit=True), follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Delete Successful!', str(response.data))

@@ -16,6 +16,7 @@ from flask import render_template, Response, redirect, url_for, flash
 from nephos.recorder.jobs import JobHandler
 from nephos.manage_db import DBHandler
 from nephos.exceptions import DBException
+from nephos.scheduler import Scheduler
 from nephos import validate_entries
 from ..main import MAIN_BP
 from ..main.forms import DeleteForm, ChannelForm, JobForm
@@ -23,6 +24,12 @@ from .. import DB, APP
 
 
 LOG = getLogger(__name__)
+
+# We need to Pass a Scheduler Object and initialize the Class so we can insert the jobs
+scheduler = Scheduler(True)
+jobs_scheduler = JobHandler(scheduler)
+
+jobs_engine = DB.get_engine(APP, 'jobs')
 
 @MAIN_BP.route('/', methods=['GET'])
 def homepage():
@@ -72,7 +79,6 @@ def jobs():
     """
 
     # This is Used to get the Jobs Database instead of storage.db
-    jobs_engine = DB.get_engine(APP, 'jobs')
     data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
 
     data = {}
@@ -101,7 +107,6 @@ def show_jobs():
     """
 
     # This is Used to get the Jobs Database instead of storage.db
-    jobs_engine = DB.get_engine(APP, 'jobs')
     data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
 
     data = {}
@@ -210,14 +215,17 @@ def add_channel():
     return render_template('edit_channel.html', form=form)
 
 
-@MAIN_BP.route('/delete/job/<id>', methods=['GET', 'POST'])
-def delete_job(id):
+@MAIN_BP.route('/delete/job/<name>', methods=['GET', 'POST'])
+def delete_job(name):
     """
-    <url>/delete/job/<id>
+    <url>/delete/job/<name>
 
-    View that Renders the Homepage
+    View that Deletes a Job
 
     """
+
+    # This is Used to get the Jobs Database instead of storage.db
+    data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;')
 
     # Select The Form
     form = DeleteForm()
@@ -225,41 +233,64 @@ def delete_job(id):
     # Validate if Form Statisfies Everything
     if form.validate_on_submit():
         # Execute Deletion but Select the other Database
-        jobs_engine = DB.get_engine(APP, 'jobs')
-        query = jobs_engine.execute(
-            "DELETE FROM apscheduler_jobs WHERE id={}".format(id))
+        data = {
+            0: {
+                'name': name
+            }
+        }
+        jobs_scheduler.rm_jobs(job_data=data)
         flash('Delete Successful!', 'success')
         return redirect(url_for('main.show_jobs'))
-    return render_template('delete_jobs.html', form=form)
+    return render_template('delete_job.html', form=form)
 
 # There is no Function to Update the jobs
-"""
-@MAIN_BP.route('/edit/job/<id>', methods=['GET', 'POST'])
-def edit_job(id):
-    
-    #<url>/edit/job/<id>
+@MAIN_BP.route('/edit/job/<name>', methods=['GET', 'POST'])
+def edit_job(name):
+    """
+    <url>/edit/job/<name>
 
-    #View that edits a Job
-
+    View that edits a Job
+    """
     
 
     # Select The Other Database and Find The Record
-    jobs_engine = DB.get_engine(APP, 'jobs')
-    entry = jobs_engine.execute('SELECT * FROM apscheduler_jobs WHERE id={};'
-        .format(id)).fetchone()
-    print(entry)
-    form = JobForm(obj=entry)
+    form = JobForm()
 
     # Validate That Everything is statisfied in the Form
     if form.validate_on_submit():
-        print(form.data)
-        #query = DB.session.execute("UPDATE apscheduler_jobs SET next_run_time='{}' \
-        #WHERE id={}".format(name, ip, country_code, lang, timezone, id))
-        flash('Edit Successful!', 'success')
-        return redirect(url_for('main.show_jobs'))
+
+        # Delete The Previous One
+
+        data = {
+            0: {
+                'name': name
+            }
+        }
+        jobs_scheduler.rm_jobs(job_data=data)
+
+        # Add the Data and Clean Up the Data and Send only the needed stuff
+        data = form.data
+        data.pop('csrf_token')
+        data.pop('submit')
+        print(data)
+
+        try:
+            # insert_jobs needs a DB connection so why not open another one
+            with DBHandler.connect() as db_cur:
+                #  Insert the data and redirect
+                jobs_scheduler.insert_jobs(db_cur, validate_entries(data))
+                flash('Edit Successful!', 'success')
+                return redirect(url_for('main.show_jobs'))
+        except DBException as err:
+            # Well something went wrong might as well log it and alert
+            flash('Editting failed!', 'danger')
+            LOG.warning("Data addition failed")
+            LOG.debug(err)
+            return redirect(url_for('main.show_jobs'))
+
 
     return render_template('edit_job.html', form=form)
-"""
+
 
 @MAIN_BP.route('/add/job', methods=['GET', 'POST'])
 def add_job():
@@ -278,11 +309,21 @@ def add_job():
         data.pop('csrf_token')
         data.pop('submit')
 
+        # This is the payload
+        payload = {
+            0:{
+            }
+        }
+
+        payload[0] = data
+
+        print(payload)
+
         try:
             # insert_jobs needs a DB connection so why not open another one
             with DBHandler.connect() as db_cur:
                 #  Insert the data and redirect
-                JobHandler.insert_jobs(db_cur, validate_entries(data))
+                jobs_scheduler.insert_jobs(db_cur=db_cur, job_data=validate_entries(payload))
                 flash('Job Added Successfuly!', 'success')
                 return redirect(url_for('main.show_jobs'))
         except DBException as err:
