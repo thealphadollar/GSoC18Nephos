@@ -14,6 +14,7 @@ import json
 from datetime import datetime
 from flask import render_template, Response, redirect, url_for, flash
 from nephos.recorder.jobs import JobHandler
+from nephos.recorder.channels import ChannelHandler
 from nephos.manage_db import DBHandler
 from nephos.exceptions import DBException
 from nephos.scheduler import Scheduler
@@ -27,9 +28,12 @@ LOG = getLogger(__name__)
 
 # We need to Pass a Scheduler Object and initialize the Class so we can insert the jobs
 scheduler = Scheduler(True)
-jobs_scheduler = JobHandler(scheduler)
+JOBS_SCHEDULER = JobHandler(scheduler)
+CHANNEL_HANDLER = ChannelHandler()
 
 JOBS_ENGINE = DB.get_engine(APP, 'jobs')
+
+
 
 @MAIN_BP.route('/', methods=['GET'])
 def homepage():
@@ -63,10 +67,11 @@ def show_channels():
     View that Returns the channel and displays them in a nice table
 
     """
-    data = DB.session.execute('SELECT * FROM channels;')
+    data = CHANNEL_HANDLER.grab_ch_list()
+    #data = DB.session.execute('SELECT * FROM channels;')
     # http://codeandlife.com/2014/12/07/sqlalchemy-results-to-json-the-easy-way/
-    channels = [dict(r) for r in data]
-    return render_template('channels.html', channels=channels)
+    #channels = [dict(r) for r in data]
+    return render_template('channels.html', channels=data)
 
 
 @MAIN_BP.route('/api/jobs', methods=['GET'])
@@ -234,7 +239,7 @@ def delete_job(name):
                 'name': name
             }
         }
-        jobs_scheduler.rm_jobs(job_data=data)
+        JOBS_SCHEDULER.rm_jobs(job_data=data)
         flash('Delete Successful!', 'success')
         return redirect(url_for('main.show_jobs'))
     return render_template('delete_job.html', form=form)
@@ -262,7 +267,7 @@ def edit_job(name):
                 'name': name
             }
         }
-        jobs_scheduler.rm_jobs(job_data=data)
+        JOBS_SCHEDULER.rm_jobs(job_data=data)
 
         # Add the Data and Clean Up the Data and Send only the needed stuff
         data = form.data
@@ -274,7 +279,7 @@ def edit_job(name):
             # insert_jobs needs a DB connection so why not open another one
             with DBHandler.connect() as db_cur:
                 #  Insert the data and redirect
-                jobs_scheduler.insert_jobs(db_cur, validate_entries(data))
+                JOBS_SCHEDULER.insert_jobs(db_cur, validate_entries(data))
                 flash('Edit Successful!', 'success')
                 return redirect(url_for('main.show_jobs'))
         except DBException as err:
@@ -319,7 +324,7 @@ def add_job():
             # insert_jobs needs a DB connection so why not open another one
             with DBHandler.connect() as db_cur:
                 #  Insert the data and redirect
-                jobs_scheduler.insert_jobs(db_cur=db_cur, job_data=validate_entries(payload))
+                JOBS_SCHEDULER.insert_jobs(db_cur=db_cur, job_data=validate_entries(payload))
                 flash('Job Added Successfuly!', 'success')
                 return redirect(url_for('main.show_jobs'))
         except DBException as err:
