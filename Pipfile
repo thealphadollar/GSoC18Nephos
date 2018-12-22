@@ -27,6 +27,7 @@ google-api-python-client = "*"
 "flask" = "*"
 "Flask-SQLAlchemy" = "*"
 "Flask-WTF" = "*"
+"blinker"= "*"
 
 [requires]
 python_version = "3.4"

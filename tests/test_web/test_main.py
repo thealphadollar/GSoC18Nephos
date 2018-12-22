@@ -79,7 +79,7 @@ class test_Controllers(BaseTestCase):
 
         # Get ID of what we want to edit
         query_to_change = DB.session.execute(
-            'SELECT * FROM channels WHERE name="kanal5"').first()
+            'SELECT * FROM channels WHERE name="kanal5"').fetchone()
 
         # Edit Channel
         data = dict(name="1tv", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc",
@@ -106,10 +106,10 @@ class test_Controllers(BaseTestCase):
 
         # Get ID of what we want to edit
         query_to_change = DB.session.execute(
-            'SELECT * FROM channels WHERE name="kanal5"').first()
+            'SELECT * FROM channels WHERE name="kanal5"').fetchone()
 
         response = self.app.test_client().get('/delete/channel/{}'
-                                              .format(query_to_change['channel_id']), 
+                                            .format(query_to_change['channel_id']), 
                                               data=dict(submit=True), 
                                               follow_redirects=True)
 
