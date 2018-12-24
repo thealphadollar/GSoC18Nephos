@@ -274,7 +274,8 @@ def edit_job(name):
 
         # Add the Data and Clean Up the Data and Send only the needed stuff
         data = form.data
-        data.pop('csrf_token')
+        if 'csrf_token' in data:
+            data.pop('csrf_token')
         data.pop('submit')
         print(data)
 
@@ -310,7 +311,8 @@ def add_job():
     if form.validate_on_submit():
         # Clean Up Data and Send only the needed stuff
         data = form.data
-        data.pop('csrf_token')
+        if 'csrf_token' in data:
+            data.pop('csrf_token')
         data.pop('submit')
 
         # This is the payload

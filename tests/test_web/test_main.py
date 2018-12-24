@@ -54,16 +54,11 @@ class test_Controllers(BaseTestCase):
         """
         data = dict(name="kanal5", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc",
                     submit=True)
-        response = self.app.test_client().get(
+        response = self.app.test_client().post(
             '/add/channel', data=data, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
-        #self.assertMessageFlashed('Channel Added Successfuly!')
-        self.assertIn('Channel Added Successfuly!', str(response.data))
-
-        query = DB.session.execute(
-            'SELECT * FROM channels WHERE name="kanal5').firstone()
-        self.assertEqual(query['name'], 'kanal5')
+        self.assertIn('Channel Added Successfuly!',str(response.data))
 
     def test_channel_edit(self):
         """
