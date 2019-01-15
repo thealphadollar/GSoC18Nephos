@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="card text-white bg-danger mb-3 mx-auto" style="max-width: 50%;">
+  <div class="card-header"><i class="fas fa-exclamation-triangle"></i> Job Deletion</div>
+  <div class="card-body">
+    <h5 class="card-title">Are you sure you want to delete this!</h5>
+    <p class="card-text">This cannot be reversed!</p>
+    <form method="POST">
+    	{{ form.csrf_token }}
+    	{{ form.submit(class="btn btn-success") }}
+    	<button type="button" class="btn btn-secondary" onclick="location.href='{{ url_for('main.show_jobs') }}'">Cancel</button>
+    </form>    
+  </div>
+{% endblock %}

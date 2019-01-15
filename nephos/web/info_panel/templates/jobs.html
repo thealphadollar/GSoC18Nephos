@@ -1,6 +1,11 @@
 {% extends 'layout.html' %}
 {% block content %}
 
+<div class="fluid-container">
+	  <h1 class="text-center">Nephos - Jobs</h1>
+	  <button type="button" class="btn btn-primary new_channel_button" onclick="location.href='{{ url_for('main.add_job') }}'"><i class="fas fa-plus"></i> Add New Job</button>
+</div>
+
 <div class="table">
 	<table class="table" id="tabledata">
 		<thead class="thead-dark">
@@ -8,6 +13,8 @@
 			  <th scope="col">ID</th>
 			  <th scope="col">Job Name</th>
 			  <th scope="col">Next Run Time</th>
+			  <th scope="col">Edit</th> 
+			  <th scope="col">Delete</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -16,6 +23,8 @@
 			  <td>{{ value }}</td>
 			  <td>{{ jobs[value]["channel_name"] }}</td>
 			  <td>{{ jobs[value]["next_run_time"] }}</td>
+			  <td> <a href="{{ url_for('main.edit_job', name=jobs[value]['channel_name'] ) }}" class="fas fa-pencil-alt"></td> 
+			  <td> <a href="{{ url_for('main.delete_job', name=jobs[value]['channel_name'] ) }}" class="fas fa-times"></td>
 			</tr>
 		{% endfor%}
 		</tbody>

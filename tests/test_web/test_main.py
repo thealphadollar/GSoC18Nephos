@@ -3,11 +3,15 @@ Test Controller responsible for testing all the views in the /main folder
 """
 from unittest import TestCase, mock
 from tests.test_web.base import BaseTestCase
+from nephos.web.info_panel import APP, DB
+
+jobs_engine = DB.get_engine(APP, 'jobs')
 
 class test_Controllers(BaseTestCase):
     """
     Test Cases for the Main Views
     """
+
     def test_root(self):
         """
         Test the root
@@ -43,4 +47,82 @@ class test_Controllers(BaseTestCase):
         response = self.app.test_client().get('/jobs')
         self.assertEqual(response.status_code, 200)
         self.assert_template_used('jobs.html')
+
+    def test_channel_add(self):
+        """
+        Test Adding Channels
+        """
+        data = dict(name="kanal5", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc",
+                    submit=True)
+        response = self.app.test_client().post(
+            '/add/channel', data=data, follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Channel Added Successfuly!',str(response.data))
+
+    def test_channel_edit(self):
+        """
+        Test Edit for Channel
+        """
+        # Edit Channel
+        data = dict(name="1tv", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc",
+                    submit=True)
+
+        response = self.app.test_client().post('/edit/channel/1', data=data, follow_redirects=True)
+
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Edit Successful!', str(response.data))
+
+    def test_channel_delete(self):
+        """
+        Test Delete for Channel
+        """
+        response = self.app.test_client().post('/delete/channel/{}'
+                                            .format(1), 
+                                              data=dict(submit=True), 
+                                              follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Delete Successful!', str(response.data))
+
+    def test_job_add(self):
+        """
+        Test Addition for Jobs
+        """
+
+        data = dict(name="Love", channel_name="RandomTV",
+                    start_time="15:51", duration=60, rep="1010000", submit=True)
+
+        response = self.app.test_client().post(
+            '/add/job', data=data, follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Job Added Successfuly!', str(response.data))
+
+    def test_job_edit(self):
+        """
+        Test Editting for Jobs
+        """
+
+        data = dict(name="RickAndMorty", channel_name="RandomTV",
+                    start_time="15:51", duration=60, rep="1010000", submit=True)
+
+        response = self.app.test_client().post('/edit/job/RandomTV', data=data, follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Edit Successful!', str(response.data))
+
+    def test_job_deletion(self):
+        """
+        Test Addition for Jobs
+        """
+        data_raw = jobs_engine.execute('SELECT * FROM apscheduler_jobs;').fetchone()
+        name = data_raw['next_run_time']
+
+        response = self.app.test_client().post(
+            '/delete/job/{}'.format(name), data=dict(Submit=True), follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Delete Successful!', str(response.data))
         
