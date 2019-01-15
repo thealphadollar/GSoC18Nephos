@@ -283,7 +283,7 @@ def edit_job(name):
             # insert_jobs needs a DB connection so why not open another one
             with DBHandler.connect() as db_cur:
                 #  Insert the data and redirect
-                JOBS_SCHEDULER.insert_jobs(db_cur, validate_entries(data))
+                JOBS_SCHEDULER.insert_jobs(db_cur, data)
                 flash('Edit Successful!', 'success')
                 return redirect(url_for('main.show_jobs'))
         except DBException as err:

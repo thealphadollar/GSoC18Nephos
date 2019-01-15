@@ -64,26 +64,12 @@ class test_Controllers(BaseTestCase):
         """
         Test Edit for Channel
         """
-
-        # Create New Channel
-        data = dict(name="kanal5", ip="31.12.16.0",
-                    country_code="mkd", lang="mkd", timezone="utc")
-
-        response = self.app.test_client().post(
-            '/add/channel', data=data, follow_redirects=True)
-
-        # Get ID of what we want to edit
-        query_to_change = DB.session.execute(
-            'SELECT * FROM channels WHERE name="kanal5"').fetchone()
-
         # Edit Channel
         data = dict(name="1tv", ip="31.12.16.0", country_code="mkd", lang="mkd", timezone="utc",
                     submit=True)
 
-        response = self.app.test_client().get('/edit/channel/{}'
-            .format(query_to_change['channel_id']),
-                                              data=data, follow_redirects=True)
-        print(str(query_to_change['channel_id']))
+        response = self.app.test_client().post('/edit/channel/1', data=data, follow_redirects=True)
+
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('Edit Successful!', str(response.data))
@@ -92,19 +78,8 @@ class test_Controllers(BaseTestCase):
         """
         Test Delete for Channel
         """
-        # Create New Channel
-        data = dict(name="kanal5", ip="31.12.16.0",
-                    country_code="mkd", lang="mkd", timezone="utc")
-
-        response = self.app.test_client().post(
-            '/add/channel', data=data, follow_redirects=True)
-
-        # Get ID of what we want to edit
-        query_to_change = DB.session.execute(
-            'SELECT * FROM channels WHERE name="kanal5"').fetchone()
-
-        response = self.app.test_client().get('/delete/channel/{}'
-                                            .format(query_to_change['channel_id']), 
+        response = self.app.test_client().post('/delete/channel/{}'
+                                            .format(1), 
                                               data=dict(submit=True), 
                                               follow_redirects=True)
 
@@ -130,11 +105,10 @@ class test_Controllers(BaseTestCase):
         Test Editting for Jobs
         """
 
-        data = dict(name="Rick And Morty", channel_name="RandomTV",
+        data = dict(name="RickAndMorty", channel_name="RandomTV",
                     start_time="15:51", duration=60, rep="1010000", submit=True)
 
-        response = self.app.test_client().post(
-            '/edit/job/RandomTV', data=data, follow_redirects=True)
+        response = self.app.test_client().post('/edit/job/RandomTV', data=data, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('Edit Successful!', str(response.data))
